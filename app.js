@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { initializeAdminData } from './utils/adminUtils.js';
 import { status } from './utils/statusMessage.js';
 import adminRouter from './router/adminRouter.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 var app = express();
@@ -12,6 +13,7 @@ app.set("view engine","ejs");
 initializeAdminData();
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(cookieParser())
 
 app.get("/",(request,response)=>{
     response.render("home.ejs");
@@ -22,8 +24,10 @@ app.get("/adminLogin",(request,response)=>{
 });
 
 app.post("/adminLogin",adminRouter)
+app.use("/admin",adminRouter);
 
 app.listen(process.env.PORT,()=>{
     console.log("server started on port ",process.env.PORT);
 })
 
+ 

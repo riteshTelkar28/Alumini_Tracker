@@ -3,6 +3,9 @@ import bcyrpt from 'bcrypt'
 import { message, status } from "../utils/statusMessage.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import uuid4 from "uuid4";
+import moment from "moment";
+import eventSchema from "../model/eventSchema.js";
 
 dotenv.config();
 
@@ -50,4 +53,21 @@ export const adminHomeController = async(request,response)=>{
         response.render("adminLogin",{message:message.somethingwentwrong,status:status.failure});
     }
 
+}
+
+export const adminAddEventController = async(request,response)=>{
+    try{
+        request.body.eventId = uuid4();
+        request.body.eventUploadDate = moment(new Date()).format('DD-MM-YYYY');
+        request.body.eventUploadTime = moment(new Date()).format('hh-mm-ss A');
+        const res = await eventSchema.create(request.body);
+        // console.log(res)
+        if(res){
+            response.render("AdminAddEvent.ejs ")
+        }
+        
+    }catch(error){
+        console.log("error while adding event ",error);
+        response.render("AdminAddEvent.ejs",{message:message.event_issue,status:status.failure})
+    }
 }

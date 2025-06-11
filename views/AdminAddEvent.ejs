@@ -85,37 +85,71 @@
             </div>
             <!-- Top Bar End -->
 
-            <!-- Nav Bar Start -->
             <%-include('./AdminHeader.ejs') %>
+
             <!-- About Start -->
+            <form action="/admin/adminAddEvent" method="post">
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-5 col-md-6">
-                            <div class="about-img">
-                                <img src="img/about.jpg" alt="Image">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="about-text">
+                                    <label for="eventName">Enter Event Name </label>
+                                    <input type="text" name="eventName" id="eventName" placeholder="enter event name" class="form-control">
+
+                                    <label for="eventStartDate">Event Start Date</label>
+                                    <input type="date" name="eventStartDate" id="eventStartDate" class="form-control" >
+
+                                    <label for="eventEndDate">Event End Date</label>
+                                    <input type="date" name="eventEndDate" id="eventEndDate" class="form-control" >
+
+                                    <label for="eventStartTime">Event Start Time</label>
+                                    <input type="text" name="eventStartTime" id="eventStartTime" class="form-control" placeholder="enter start time">
+
+                                    <label for="eventEndTime">Event End Time</label>
+                                    <input type="text" name="eventEndTime" id="eventEndTime" class="form-control" placeholder="enter end time" >
+
+                                    <label for="location">Enter Location</label>
+                                    <input type="text" placeholder="enter location" name="location" id="location" class="form-control" >
+
+                                    <label for="description">Enter full address</label>
+                                    <textarea  placeholder="enter address" name="description" id="description" ></textarea>
+
                             </div>
                         </div>
-                        <div class="col-lg-7 col-md-6">
-                            <div class="section-header text-left">
-                                <p>Welcome to Builderz</p>
-                                <h2>25 Years Experience</h2>
-                            </div>
+                        <div class="col-lg-6 col-md-6">
                             <div class="about-text">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non vulputate. Aliquam metus tortor, auctor id gravida condimentum, viverra quis sem.
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non vulputate. Aliquam metus tortor, auctor id gravida condimentum, viverra quis sem. Curabitur non nisl nec nisi scelerisque maximus. Aenean consectetur convallis porttitor. Aliquam interdum at lacus non blandit.
-                                </p>
-                                <a class="btn" href="">Learn More</a>
+                                <label for="eventType">Enter type of Event</label>
+                                <input type="text" placeholder="enter event type" name="eventType" id="eventType" class="form-control" >
+
+                                <label for="criteria">Enter Criteria</label>
+                                <input type="text" placeholder="enter Criteria" name="criteria" id="criteria" class="form-control" >
+
+                                <label for="modeOfApply">Mode of Apply</label>
+                                <select name="modeOfApply" id="modeOfApply" class="form-control">
+                                    <option value="">Select Mode</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                    <option value="Both">Both</option>
+                                </select>
+
+                                <label for="startDate">Select Start Date</label>
+                                <input type="date"  name="startDate" id="startDate" class="form-control">
+
+                                <label for="endDate">Select End Date</label>
+                                <input type="date"  name="endDate" id="endDate" class="form-control">
+
+                                <input type="submit" value="Add Event"  class="btn btn-block btn-primary">
+                                
+                                <input type="reset" value="reset"  class="btn btn-block btn-danger">
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
             <!-- About End -->
-
 
             <!-- Footer Start -->
             <div class="footer wow fadeIn" data-wow-delay="0.3s">

@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import uuid4 from "uuid4";
 import moment from "moment";
 import eventSchema from "../model/eventSchema.js";
+import { request } from "express";
 
 dotenv.config();
 
@@ -46,7 +47,7 @@ export const adminLoginController = async(request,response)=>{
 
 export const adminHomeController = async(request,response)=>{
     try{
-        response.render("adminHome.ejs",{email:request.payload.email})
+        response.render("adminHome.ejs",{email:request.payload.email,message:""})
 
     }catch(error){
         console.log("error ",error);
@@ -63,11 +64,46 @@ export const adminAddEventController = async(request,response)=>{
         const res = await eventSchema.create(request.body);
         // console.log(res)
         if(res){
-            response.render("AdminAddEvent.ejs ")
+            response.render("AdminAddEvent.ejs",{message:message.event_added,status:status.success})
+        }else{
+            response.render("AdminAddEvent.ejs",{message:message.event_not_added,status:status.failure})
         }
         
     }catch(error){
         console.log("error while adding event ",error);
         response.render("AdminAddEvent.ejs",{message:message.event_issue,status:status.failure})
+    }
+}
+
+export const adminViewEventController = async(request,response)=>{
+    try{
+        const eventData = await eventSchema.find({status:true});
+        response.render("adminViewEvent",{eventData:eventData.reverse(),message:""})
+    }
+    catch(error){
+        console.log("error while adding event ",error);
+        response.render("adminHome.ejs",{email:request.payload.email,message:message.event_not_viewed})
+    }
+}
+
+export const adminDeleteEventController = async(request,response)=>{
+    try{
+        const eventId = request.body.eventId;
+        const status = {
+            $set:{
+                status:false
+            }
+        }
+        const res = await eventSchema.updateOne({eventId},status);
+        if(res){
+            const eventData = await eventSchema.find({status:true});
+            response.render("adminViewEvent.ejs",{eventData:eventData.reverse(),message:"deleted successfully"})
+        }else{
+        response.render("adminViewEvent.ejs",{eventData:eventData.reverse(),message:"error while deleting"})
+        }
+
+    }catch(error){
+        console.log("error while deleting admin ",error);
+        response.render("adminViewEvent.ejs",{eventData:eventData.reverse(),message:"error while deleting"})
     }
 }

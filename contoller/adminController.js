@@ -107,3 +107,42 @@ export const adminDeleteEventController = async(request,response)=>{
         response.render("adminViewEvent.ejs",{eventData:eventData.reverse(),message:"error while deleting"})
     }
 }
+
+export const adminUpdateEventController = async(request,response)=>{
+    try{
+        const eventId = request.body.eventId;
+        const eventData = await eventSchema.findOne({eventId});
+        // console.log(eventData);
+        if(eventData){
+            response.render("adminUpdateEvent.ejs",{eventData,message:""})
+        }else{
+        response.render("adminViewEvent.ejs",{eventData:eventData.reverse(),message:"error while updating event"});
+        }
+    }catch(error){
+        console.log("error while updating event ",error);
+        response.render("adminViewEvent.ejs",{eventData:eventData.reverse(),message:"error while updating event"});
+    }
+}
+
+export const adminEventUpdateController = async(request,response)=>{
+    try{
+        const status= {
+            $set:request.body
+            
+        }
+        
+        const res = await eventSchema.updateOne({eventId:request.body.eventId},status);
+        // console.log(res);
+        if(res.modifiedCount){
+        const eventData = await eventSchema.find({status:true});
+        response.render("adminViewEvent",{eventData:eventData.reverse(),message:message.event_updated})
+        }else{
+        const eventData = await eventSchema.find({status:true});
+        response.render("adminViewEvent",{eventData:eventData.reverse(),message:message.event_not_updated})
+        }
+    }catch(error){
+        const eventData = await eventSchema.find({status:true});
+        response.render("adminViewEvent",{eventData:eventData.reverse(),message:message.event_not_updated})
+        console.log("error while updating ",error)
+    }
+}

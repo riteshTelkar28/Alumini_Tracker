@@ -6,7 +6,9 @@ export const message ={
     event_issue:"failed to add event",
     event_added:"event added successfully",
     event_not_added :"unable to add event",
-    event_not_viewed:"unable to load event"
+    event_not_viewed:"unable to load event",
+    event_not_updated:"unable to update event",
+    event_updated:"event updated successfully"
 }
 
 export const status = {

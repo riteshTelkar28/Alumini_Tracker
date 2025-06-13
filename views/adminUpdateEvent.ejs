@@ -88,76 +88,68 @@
             <%-include('./AdminHeader.ejs') %>
 
             <!-- About Start -->
+            <form action="/admin/adminEventUpdate" method="post">
+                <center> <%= message %> </center>
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <center> <%=message%> </center>
-                        <div class="col-lg-12 col-md-12 table table-responsive">
+                        <div class="col-lg-6 col-md-6">
                             <div class="about-text">
-                                <% if(eventData.length == 0){ %>
-                                    <center>No data found</center>
-                                <%}else{%>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Event Name</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>Starting Time</th>
-                                                <th>Ending Time</th>
-                                                <th>location</th>
-                                                <th>description</th>
-                                                <th>Type</th>
-                                                <th>criteria</th>
-                                                <th>apply mode</th>
-                                                <th>Apply start</th>
-                                                <th>Apply end</th>
-                                                <th>Uploading Date</th>
-                                                <th>Uploading Time</th>
-                                                <th colspan="2">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% eventData.forEach((event,index)=>{%>
-                                                <tr>
-                                                    <td> <%= event.eventName %> </td>
-                                                    <td> <%= event.eventStartDate %> </td>
-                                                    <td> <%= event.eventEndDate %> </td>
-                                                    <td> <%= event.eventStartTime %> </td>
-                                                    <td> <%= event.eventEndTime %> </td>
-                                                    <td> <%= event.location %> </td>
-                                                    <td> <%= event.description %> </td>
-                                                    <td> <%= event.eventType %> </td>
-                                                    <td> <%= event.criteria %> </td>
-                                                    <td> <%= event.modeOfApply %> </td>
-                                                    <td> <%= event.startDate %> </td>
-                                                    <td> <%= event.endDate %> </td>
-                                                    <td> <%= event.eventUploadDate %> </td>
-                                                    <td> <%= event.eventUploadTime %> </td>
-                                                    <td>
-                                                        <form action="/admin/adminUpdateEvent" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Update</button>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form action="/admin/adminEventDelete" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Delete</button>
-                                                        </form>
-                                                    </td>
-                                                    
-                                                </tr>
-                                            <%}) %>
-                                        </tbody>
-                                    </table>
-                                <%}%>
+                                    <input type="hidden" name="eventId" value="<%=eventData.eventId%>">
+                                    <label for="eventName">Enter Event Name </label>
+                                    <input type="text" name="eventName" id="eventName" placeholder="enter event name" class="form-control" value="<%=eventData.eventName%>" >
+
+                                    <label for="eventStartDate">Event Start Date</label>
+                                    <input type="date" name="eventStartDate" id="eventStartDate" class="form-control" value="<%=eventData.eventStartDate%>" >
+
+                                    <label for="eventEndDate">Event End Date</label>
+                                    <input type="date" name="eventEndDate" id="eventEndDate" class="form-control" value="<%=eventData.eventEndDate%>">
+
+                                    <label for="eventStartTime">Event Start Time</label>
+                                    <input type="text" name="eventStartTime" id="eventStartTime" class="form-control" placeholder="enter start time" value="<%=eventData.eventStartTime%>">
+
+                                    <label for="eventEndTime">Event End Time</label>
+                                    <input type="text" name="eventEndTime" id="eventEndTime" class="form-control" placeholder="enter end time" value="<%=eventData.eventEndTime%>" >
+
+                                    <label for="location">Enter Location</label>
+                                    <input type="text" placeholder="enter location" name="location" id="location" class="form-control" value="<%=eventData.location%>" >
+
+                                    <label for="description">Enter full address</label>
+                                    <input type="text"  placeholder="enter address" name="description" id="description" class="form-control" value="<%=eventData.description%>"></input >
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="about-text">
+                                <label for="eventType">Enter type of Event</label>
+                                <input type="text" placeholder="enter event type" name="eventType" id="eventType" class="form-control" value="<%=eventData.eventType%>" >
+
+                                <label for="criteria">Enter Criteria</label>
+                                <input type="text" placeholder="enter Criteria" name="criteria" id="criteria" class="form-control" value="<%=eventData.criteria%>" >
+
+                                <label for="modeOfApply">Mode of Apply</label>
+                                <select name="modeOfApply" id="modeOfApply" class="form-control" >
+                                    <option value="<%=eventData.modeOfApply%>" ><%= eventData.modeOfApply ? eventData.modeOfApply : "Select mode of apply" %></option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                    <option value="Both">Both</option>
+                                </select>
+
+                                <label for="startDate">Select Start Date</label>
+                                <input type="date"  name="startDate" id="startDate" class="form-control" value="<%=eventData.startDate%>">
+
+                                <label for="endDate">Select End Date</label>
+                                <input type="date"  name="endDate" id="endDate" class="form-control" value="<%=eventData.endDate%>">
+
+                                <input type="submit" value="Update Event"  class="btn btn-block btn-primary">
+                                
+                                <input type="reset" value="reset"  class="btn btn-block btn-danger">
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
             <!-- About End -->
 
             <!-- Footer Start -->

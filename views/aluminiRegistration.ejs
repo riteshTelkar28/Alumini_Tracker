@@ -85,86 +85,89 @@
             </div>
             <!-- Top Bar End -->
 
-            <%-include('./AdminHeader.ejs') %>
+            <%-include('./navBar.ejs')%>
 
             <!-- About Start -->
+            <form action="/alumini/aluminiRegistration" method="post" enctype="multipart/form-data">
+                <center> <%= message %> </center>
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <center> <%=message%> </center>
-                        <div class="col-lg-12 col-md-12 table table-responsive">
+                        <div class="col-lg-6 col-md-6">
                             <div class="about-text">
-                                <% if(eventData.length == 0){ %>
-                                    <center>No data found</center>
-                                <%}else{%>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Event Name</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>Starting Time</th>
-                                                <th>Ending Time</th>
-                                                <th>location</th>
-                                                <th>description</th>
-                                                <th>Type</th>
-                                                <th>criteria</th>
-                                                <th>apply mode</th>
-                                                <th>Apply start</th>
-                                                <th>Apply end</th>
-                                                <th>Uploading Date</th>
-                                                <th>Uploading Time</th>
-                                                <th colspan="2">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% eventData.forEach((event,index)=>{%>
-                                                <tr>
-                                                    <td> <%= event.eventName %> </td>
-                                                    <td> <%= event.eventStartDate %> </td>
-                                                    <td> <%= event.eventEndDate %> </td>
-                                                    <td> <%= event.eventStartTime %> </td>
-                                                    <td> <%= event.eventEndTime %> </td>
-                                                    <td> <%= event.location %> </td>
-                                                    <td> <%= event.description %> </td>
-                                                    <td> <%= event.eventType %> </td>
-                                                    <td> <%= event.criteria %> </td>
-                                                    <td> <%= event.modeOfApply %> </td>
-                                                    <td> <%= event.startDate %> </td>
-                                                    <td> <%= event.endDate %> </td>
-                                                    <td> <%= event.eventUploadDate %> </td>
-                                                    <td> <%= event.eventUploadTime %> </td>
-                                                    <td>
-                                                        <form action="/admin/adminUpdateEvent" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Update</button>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form action="/admin/adminEventDelete" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Delete</button>
-                                                        </form>
-                                                    </td>
-                                                    
-                                                </tr>
-                                            <%}) %>
-                                        </tbody>
-                                    </table>
-                                <%}%>
+                                    <label for="username">Enter Username </label>
+                                    <input type="text" name="username" id="username" placeholder="enter user name" class="form-control">
+
+                                    <label for="email">Enter Email</label>
+                                    <input type="email" name="email" id="email" placeholder="Enter Email" class="form-control" >
+
+                                    <label for="password">Enter password</label>
+                                    <input type="password" name="password" id="password" placeholder="enter password" class="form-control" >
+
+                                    <label for="contact">Enter Contact</label>
+                                    <input type="text" name="contact" id="contact" class="form-control" placeholder="enter contact number">
+
+                                    Gender
+                                    <input type="radio" class="radio-inline" value="male" name="male" id="male" ><label for="male">Male</label>
+                                    <input type="radio" value="female" name="female" id="female" class="radio-inline" ><label for="female">Female</label>
+                                    <br>
+                                    
+
+                                    <label for="passOutYear">Enter Pass Out Year</label>
+                                    <input type="number" placeholder="enter pass out year" name="passOutYear" id="passOutYear" class="form-control" >
+
+                                    <label for="stream">Select Stream</label><br>
+                                    <select name="stream">
+                                        <option value="MTech">MTech</option>
+                                        <option value="BTech">BTech</option>
+                                        <option value="MCA">MCA</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="MSc">MSc</option>
+                                    </select>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="about-text">
+                                    <label for="branch">Select branch</label><br>
+                                    <select name="branch">
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Information Technology">Information Technology</option>
+                                        <option value="Electronic Communication">Electronic Communication</option>
+                                    </select>
+                                    <br>
+                                    <label for="experience">Select Experience</label><br>
+                                    <select name="experience">
+                                        <option value="6 months">6 months</option>
+                                        <option value="1+ Year">1+ Year</option>
+                                        <option value="3+ Year">3+ Year</option>
+                                    </select><br>
+
+                                <label for="currentCompany">Current Company</label>
+                                <input type="text" placeholder="enter currentCompany"  name="currentCompany" id="currentCompany" class="form-control">
+
+                                <label for="designation">Designation</label>
+                                <input type="text"  name="designation" id="designation" placeholder="enter designation" class="form-control">
+
+                                <label for="profile">Select Profile Pic</label>
+                                <input type="file" name="profile" id="profile">
+                                
+                                <label for="linkedIn">Enter LinkedIn link</label>
+                                <input type="text" name="linkedIn" id="linkedIn" placeholder="Enter LinkedIn">
+
+                                <input type="submit" value="Register"  class="btn btn-block btn-primary">
+                                
+                                <input type="reset" value="reset"  class="btn btn-block btn-danger">
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
             <!-- About End -->
 
-            <!-- Footer Start -->
             <%-include('./footer.ejs')%>
-
-        </div>
-
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

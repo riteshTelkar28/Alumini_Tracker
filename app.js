@@ -4,6 +4,8 @@ import { initializeAdminData } from './utils/adminUtils.js';
 import { status } from './utils/statusMessage.js';
 import adminRouter from './router/adminRouter.js';
 import cookieParser from 'cookie-parser';
+import expressFileUpload from 'express-fileupload';
+import aluminiRouter from './router/aluminiRouter.js';
 dotenv.config();
 
 var app = express();
@@ -12,6 +14,7 @@ app.set("views","views");
 app.set("view engine","ejs");
 initializeAdminData();
 app.use(express.urlencoded({extended:true}));
+app.use(expressFileUpload());
 app.use(express.json());
 app.use(cookieParser())
 
@@ -25,6 +28,7 @@ app.get("/adminLogin",(request,response)=>{
 
 app.post("/adminLogin",adminRouter)
 app.use("/admin",adminRouter);
+app.use("/alumini",aluminiRouter);
 
 app.listen(process.env.PORT,()=>{
     console.log("server started on port ",process.env.PORT);

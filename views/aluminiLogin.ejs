@@ -85,84 +85,38 @@
             </div>
             <!-- Top Bar End -->
 
-            <%-include('./AdminHeader.ejs') %>
+            <%-include('./navBar.ejs')%>
 
             <!-- About Start -->
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <center> <%=message%> </center>
-                        <div class="col-lg-12 col-md-12 table table-responsive">
-                            <div class="about-text">
-                                <% if(eventData.length == 0){ %>
-                                    <center>No data found</center>
-                                <%}else{%>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Event Name</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>Starting Time</th>
-                                                <th>Ending Time</th>
-                                                <th>location</th>
-                                                <th>description</th>
-                                                <th>Type</th>
-                                                <th>criteria</th>
-                                                <th>apply mode</th>
-                                                <th>Apply start</th>
-                                                <th>Apply end</th>
-                                                <th>Uploading Date</th>
-                                                <th>Uploading Time</th>
-                                                <th colspan="2">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% eventData.forEach((event,index)=>{%>
-                                                <tr>
-                                                    <td> <%= event.eventName %> </td>
-                                                    <td> <%= event.eventStartDate %> </td>
-                                                    <td> <%= event.eventEndDate %> </td>
-                                                    <td> <%= event.eventStartTime %> </td>
-                                                    <td> <%= event.eventEndTime %> </td>
-                                                    <td> <%= event.location %> </td>
-                                                    <td> <%= event.description %> </td>
-                                                    <td> <%= event.eventType %> </td>
-                                                    <td> <%= event.criteria %> </td>
-                                                    <td> <%= event.modeOfApply %> </td>
-                                                    <td> <%= event.startDate %> </td>
-                                                    <td> <%= event.endDate %> </td>
-                                                    <td> <%= event.eventUploadDate %> </td>
-                                                    <td> <%= event.eventUploadTime %> </td>
-                                                    <td>
-                                                        <form action="/admin/adminUpdateEvent" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Update</button>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form action="/admin/adminEventDelete" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Delete</button>
-                                                        </form>
-                                                    </td>
-                                                    
-                                                </tr>
-                                            <%}) %>
-                                        </tbody>
-                                    </table>
-                                <%}%>
+                        <div class="col-lg-5 col-md-6">
+                            <div class="about-img">
+                                <img src="img/adminLogin.webp" alt="Image">
                             </div>
+                        </div>
+                        <div class="col-lg-7 col-md-6">
+                            <div class="section-header text-left">
+                                <h2>Login</h2>
+                                <h4><%= message %></h4>
+                            </div>
+                            <div class="about-text">
+                                <form action="/alumini/aluminiLogin" method="post" class="form-group">
+                                    <input type="email" name="email" id="email" placeholder="enter email" class="form-control"> <br>
+                                    <input type="password" name="password" id="password" placeholder="enter password" class="form-control" > <br>
+                                    <input type="submit" value="Login" class="btn btn-primary">
+                                    <input type="reset" value="reset" class="btn btn-danger" >
+                                </form>
+                            </div>
+                            <a href="/alumini/aluminiRegistration">Don't have any accounts? Register Here</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- About End -->
 
-            <!-- Footer Start -->
             <%-include('./footer.ejs')%>
-
         </div>
 
         <!-- JavaScript Libraries -->

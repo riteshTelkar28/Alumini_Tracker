@@ -1,18 +1,16 @@
 import express from 'express';
-import { adminAddEventController, adminDeleteEventController, adminEventUpdateController, adminHomeController, adminLoginController, adminUpdateEventController, adminViewEventController } from '../contoller/adminController.js';
+import { adminAddEventController, adminDeleteEventController, adminEventUpdateController, adminHomeController, adminLoginController, adminUpdateAluminiController, adminUpdateEventController, adminViewAluminiController, adminViewEventController } from '../controller/adminController.js';
 import { message, status } from '../utils/statusMessage.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-
 dotenv.config();
-
 const ADMIN_SECRET = process.env.ADMIN_SECRET_KEY;
 var adminRouter = express.Router();
 
 const authenticateJWT = (request,response,next)=>{
     try{
         const token = request.cookies.admin_jwt;
-        console.log("token ",token);
+        // console.log("token ",token);
         
         if(!token){
             response.render("adminLogin.ejs",{message:message.login_issue,status:status.failure})
@@ -66,5 +64,9 @@ adminRouter.post("/adminEventDelete",authenticateJWT,adminDeleteEventController)
 adminRouter.post("/adminUpdateEvent",authenticateJWT,adminUpdateEventController);
 
 adminRouter.post("/adminEventUpdate",authenticateJWT,adminEventUpdateController);
+
+adminRouter.get("/adminViewAlumini",authenticateJWT,adminViewAluminiController);
+
+adminRouter.post("/adminUpdateAlumini",authenticateJWT,adminUpdateAluminiController);
 
 export default adminRouter;

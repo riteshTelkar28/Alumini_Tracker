@@ -8,7 +8,9 @@ export const message ={
     event_not_added :"unable to add event",
     event_not_viewed:"unable to load event",
     event_not_updated:"unable to update event",
-    event_updated:"event updated successfully"
+    event_updated:"event updated successfully",
+    mail_erroo:"error while sending mail",
+    fileUploadError:"error while uploading file"
 }
 
 export const status = {

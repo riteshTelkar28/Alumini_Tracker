@@ -7,6 +7,7 @@ import uuid4 from "uuid4";
 import moment from "moment";
 import eventSchema from "../model/eventSchema.js";
 import { request } from "express";
+import aluminiSchema from "../model/aluminiSchema.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ export const adminLoginController = async(request,response)=>{
         const {email,password} = request.body;
         const adminObj = await adminSchema.findOne({email});
         const adminPassword = adminObj.password;
-        console.log(adminObj)
+        // console.log(adminObj)
         // console.log(adminPassword)
         const res = await bcyrpt.compare(password,adminPassword)
         // console.log(res)
@@ -29,9 +30,9 @@ export const adminLoginController = async(request,response)=>{
                 expiresIn:"1d"
             }
             const token = jwt.sign(payload,ADMIN_SECRET,expiryTime);
-            response.cookie("admin_jwt",token,{httpOnly:true,maxAge:24*60*60});
+            response.cookie("admin_jwt",token,{httpOnly:true,maxAge:24*60*60*1000});
             // response.render("adminHome.ejs")
-            console.log("tokenized");
+            // console.log("tokenized");
             
             response.redirect("/admin/adminHome")
         }else{
@@ -144,5 +145,42 @@ export const adminEventUpdateController = async(request,response)=>{
         const eventData = await eventSchema.find({status:true});
         response.render("adminViewEvent",{eventData:eventData.reverse(),message:message.event_not_updated})
         console.log("error while updating ",error)
+    }
+}
+
+export const adminViewAluminiController = async(request,response)=>{
+    try{
+        const aluminiData = await aluminiSchema.find({status:true});
+        response.render("adminviewAluminis.ejs",{aluminiData,message:""});
+    }
+    catch(error){
+        console.log("error while viewing data ",error)
+        response.render("adminHome.ejs",{email:request.payload.email,message:message.somethingwentwrong})
+    }
+}
+
+export const adminUpdateAluminiController = async(request,response)=>{
+    try{
+        const aluminiId = request.body.aluminiId;
+        const change = {
+            $set:{
+                adminVerify:"Verified"
+            }
+        }
+
+        const res = await aluminiSchema.updateOne({aluminiId},change);
+        if(res.modifiedCount){
+            const aluminiData = await aluminiSchema.find({status:true});
+            response.render("adminviewAluminis.ejs",{aluminiData,message:""})
+        }else{
+            const aluminiData = await aluminiSchema.find({status:true});
+            response.render("adminviewAluminis.ejs",{aluminiData,message:message.somethingwentwrong})
+        }
+
+    }catch(error){
+        console.log("error while verifying alumini ",error);
+        const aluminiData = await aluminiSchema.find({status:true});
+        response.render("adminviewAluminis.ejs",{aluminiData,message:message.somethingwentwrong})
+
     }
 }

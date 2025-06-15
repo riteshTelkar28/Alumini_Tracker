@@ -1,5 +1,5 @@
 import express from 'express';
-import { aluminiRegistrationController } from '../contoller/aluminiController.js';
+import { aluminiEmailVerifyController, aluminiRegistrationController } from '../controller/aluminiController.js';
 
 const aluminiRouter = express.Router();
 
@@ -12,6 +12,9 @@ aluminiRouter.get("/aluminiRegistration",(request,response)=>{
 })
 
 aluminiRouter.post("/aluminiRegistration",aluminiRegistrationController);
+
+aluminiRouter.post("/aluminiVerifyEmail",aluminiEmailVerifyController);
+
 
 
 export default aluminiRouter;

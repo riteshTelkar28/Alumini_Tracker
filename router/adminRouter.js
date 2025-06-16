@@ -38,8 +38,6 @@ const authorizeJWT = (request,response,next)=>{
         if(request.payload.role=="admin"){
             next();
         }
-
-
     }catch(error){
         console.log("error in authorization ",error);
         response.render("adminLogin.ejs",{message:message.somethingwentwrong,status:status.failure})

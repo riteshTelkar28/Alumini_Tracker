@@ -1,12 +1,11 @@
 import adminSchema from "../model/adminSchema.js";
-import bcyrpt from 'bcrypt'
+import bcyrpt from 'bcrypt';
 import { message, status } from "../utils/statusMessage.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import uuid4 from "uuid4";
 import moment from "moment";
 import eventSchema from "../model/eventSchema.js";
-import { request } from "express";
 import aluminiSchema from "../model/aluminiSchema.js";
 
 dotenv.config();

@@ -88,13 +88,13 @@
             <%-include('./aluminiHeader.ejs')%>
 
             <!-- About Start -->
+             <center><h1 style="color: red;"><%=message%></h1></center>
             <form action="/alumini/aluminiJobs" method="post" >
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-md-6">
                             <div class="about-text">
-                                    <input type="hidden" name="email" value="<%=email%>">
                                     <label for="post">Enter Post</label>
                                     <input type="text" name="post" id="post" placeholder="enter post" class="form-control">
 
@@ -102,9 +102,9 @@
                                     <input type="text" name="department" id="department" placeholder="Enter Department" class="form-control" >
 
                                     <label for="vacany">Enter number of vacany</label>
-                                    <input type="number" name="vacany" id="vacany" placeholder="enter vacany" class="form-control" >
+                                    <input type="number" name="vacancy" id="vacancy" placeholder="enter vacany" class="form-control" >
 
-                                    <label for="salary">Enter Contact</label>
+                                    <label for="salary">Enter salary</label>
                                     <input type="number" name="salary" id="salary" class="form-control" placeholder="enter salary">
 
                                     <label for="location">Enter location</label>
@@ -120,7 +120,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="about-text">
-                                    <label for="timings">Select Stream</label><br>
+                                    <label for="timings">Select timings</label><br>
                                     <select name="timings" id="timings" class="form-control">
                                         <option value="">Select Timings</option>
                                         <option value="8 am to 3 pm">8 am to 3 pm</option>

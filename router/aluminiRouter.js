@@ -1,5 +1,5 @@
 import express from 'express';
-import { aluminiEmailVerifyController, aluminiLoginController, aluminiRegistrationController } from '../controller/aluminiController.js';
+import { aluminiEmailVerifyController, aluminiJobPostingController, aluminiLoginController, aluminiRegistrationController } from '../controller/aluminiController.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { message } from '../utils/statusMessage.js';
@@ -49,8 +49,10 @@ aluminiRouter.get("/aluminiHome",authenticateJWT,(request,response)=>{
 })
 
 aluminiRouter.get("/aluminiJobs",authenticateJWT,(request,response)=>{
-    response.render("aluminiJobForm.ejs",{email:request.payload.email});
+    response.render("aluminiJobForm.ejs",{email:request.payload.email,message:""});
 });
+
+aluminiRouter.post("/aluminiJobs",authenticateJWT,aluminiJobPostingController);
 
 
 export default aluminiRouter;

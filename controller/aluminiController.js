@@ -7,6 +7,7 @@ import aluminiSchema from '../model/aluminiSchema.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import jobSchema from "./jobSchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -108,3 +109,25 @@ export const aluminiLoginController = async(request,response)=>{
     }
 }
 
+
+export const aluminiJobPostingController = async(request,response)=>{
+    try{
+        request.body.jobId = uuid4();
+        const aluminiIdObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        request.body.aluminiId = aluminiIdObj.aluminiId;
+        // console.log(request.body)
+
+        const res = await jobSchema.create(request.body);
+        if(res){
+            response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"job posted"})
+        }else{
+            response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"unable to post job"});
+
+        }
+
+    }catch(error){
+        console.log("error while job posting ",error);
+        response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"unable to post job"});
+
+    }
+}

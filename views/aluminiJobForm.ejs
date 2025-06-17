@@ -85,43 +85,84 @@
             </div>
             <!-- Top Bar End -->
 
-            <!-- Nav Bar Start -->
-            <%-include('./aluminiHeader.ejs') %>
+            <%-include('./aluminiHeader.ejs')%>
+
             <!-- About Start -->
+            <form action="/alumini/aluminiJobs" method="post" >
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-5 col-md-6">
-                            <div class="about-img">
-                                <img src="img/about.jpg" alt="Image">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="about-text">
+                                    <input type="hidden" name="email" value="<%=email%>">
+                                    <label for="post">Enter Post</label>
+                                    <input type="text" name="post" id="post" placeholder="enter post" class="form-control">
+
+                                    <label for="department">Enter Department</label>
+                                    <input type="text" name="department" id="department" placeholder="Enter Department" class="form-control" >
+
+                                    <label for="vacany">Enter number of vacany</label>
+                                    <input type="number" name="vacany" id="vacany" placeholder="enter vacany" class="form-control" >
+
+                                    <label for="salary">Enter Contact</label>
+                                    <input type="number" name="salary" id="salary" class="form-control" placeholder="enter salary">
+
+                                    <label for="location">Enter location</label>
+                                    <input type="text" placeholder="enter location" name="location" id="location" class="form-control" >
+
+                                    <select name="bond" id="bond" class="form-control">
+                                        <option value="">Bond(if any)</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+
                             </div>
                         </div>
-                        <div class="col-lg-7 col-md-6">
-                            <div class="section-header text-left">
-                                <p>Welcome <%=email%></p>
-                                <h2>25 Years Experience</h2>
-                            </div>
+                        <div class="col-lg-6 col-md-6">
                             <div class="about-text">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non vulputate. Aliquam metus tortor, auctor id gravida condimentum, viverra quis sem.
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non vulputate. Aliquam metus tortor, auctor id gravida condimentum, viverra quis sem. Curabitur non nisl nec nisi scelerisque maximus. Aenean consectetur convallis porttitor. Aliquam interdum at lacus non blandit.
-                                </p>
-                                <a class="btn" href="">Learn More</a>
+                                    <label for="timings">Select Stream</label><br>
+                                    <select name="timings" id="timings" class="form-control">
+                                        <option value="">Select Timings</option>
+                                        <option value="8 am to 3 pm">8 am to 3 pm</option>
+                                        <option value="9 am to 4 pm">9 am to 4 pm</option>
+                                        <option value="10 am to 5 pm">10 am to 5 pm</option>
+                                        <option value="11 am to 6 pm">11 am to 6 pm</option>
+                                    </select><br>
+
+                                    <label for="applyFromDate">Starting Date to Apply</label>
+                                    <input type="date" name="applyFromDate" id="applyFromDate" class="form-control">
+
+                                    <label for="applyTillDate">Ending Date to Apply</label>
+                                    <input type="date" name="applyTillDate" id="applyTillDate" class="form-control">
+
+
+                                    <label for="mode">Mode</label><br>
+                                    <select name="mode" id="mode" class="form-control">
+                                        <option value="">Select Mode</option>
+                                        <option value="Fresher">Fresher</option>
+                                        <option value="1+ Year">1+ Year</option>
+                                        <option value="3+ Year">3+ Year</option>
+                                        <option value="5+ Year">5+ Year</option>
+                                        <option value="10+ Year">10+ Year</option>
+                                    </select><br>
+
+                                    <label for="type">Type</label>
+                                    <select name="type" id="type" class="form-control">
+                                        <option value="">Select Type</option>
+                                        <option value="Full Time">Full Time</option>
+                                        <option value="Part Time">Part Time</option>
+                                    </select>
+                                <input type="submit" value="Post Job"  class="btn btn-block btn-primary">
+                                                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
             <!-- About End -->
 
-
-            <!-- Footer Start -->
             <%-include('./footer.ejs')%>
-
-        </div>
-
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

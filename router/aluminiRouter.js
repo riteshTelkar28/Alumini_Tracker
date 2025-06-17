@@ -48,5 +48,9 @@ aluminiRouter.get("/aluminiHome",authenticateJWT,(request,response)=>{
     response.render("aluminiHome.ejs",{email:request.payload.email});
 })
 
+aluminiRouter.get("/aluminiJobs",authenticateJWT,(request,response)=>{
+    response.render("aluminiJobForm.ejs",{email:request.payload.email});
+});
+
 
 export default aluminiRouter;

@@ -67,4 +67,6 @@ adminRouter.get("/adminViewAlumini",authenticateJWT,adminViewAluminiController);
 
 adminRouter.post("/adminUpdateAlumini",authenticateJWT,adminUpdateAluminiController);
 
+adminRouter.get("/adminViewJobs",authenticateJWT,adminViewJobsController);
+
 export default adminRouter;

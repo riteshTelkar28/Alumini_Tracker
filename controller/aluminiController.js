@@ -119,7 +119,7 @@ export const aluminiJobPostingController = async(request,response)=>{
 
         const res = await jobSchema.create(request.body);
         if(res){
-            response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"job posted"})
+            response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"job posted successfully"})
         }else{
             response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"unable to post job"});
 

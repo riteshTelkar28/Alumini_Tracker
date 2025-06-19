@@ -88,15 +88,18 @@
             <%-include('./aluminiHeader.ejs')%>
 
             <!-- About Start -->
-             <center><h1 style="color: red;"><%=message%></h1></center>
+             <center><h2 style="color: orange;"><%=message%></h2></center>
             <form action="/alumini/aluminiJobs" method="post" >
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center" >
                         <div class="col-lg-6 col-md-6">
                             <div class="about-text">
                                     <label for="post">Enter Post</label>
-                                    <input type="text" name="post" id="post" placeholder="enter post" class="form-control">
+                                    <input type="text" name="post" id="post" placeholder="enter post" class="form-control"
+
+                                    <label for="company">Enter Company Name</label>
+                                    <input type="text" name="company" id="company" placeholder="enter company" class="form-control">
 
                                     <label for="department">Enter Department</label>
                                     <input type="text" name="department" id="department" placeholder="Enter Department" class="form-control" >
@@ -110,6 +113,7 @@
                                     <label for="location">Enter location</label>
                                     <input type="text" placeholder="enter location" name="location" id="location" class="form-control" >
 
+                                    <label for="bond">Bond</label>
                                     <select name="bond" id="bond" class="form-control">
                                         <option value="">Bond(if any)</option>
                                         <option value="Yes">Yes</option>
@@ -118,7 +122,7 @@
 
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-lg-6 col-md-6" style="margin-top: -25px;">
                             <div class="about-text">
                                     <label for="timings">Select timings</label><br>
                                     <select name="timings" id="timings" class="form-control">
@@ -153,6 +157,7 @@
                                         <option value="Part Time">Part Time</option>
                                     </select>
                                 <input type="submit" value="Post Job"  class="btn btn-block btn-primary">
+                                <input type="reset" value="Reset" class="btn btn-block btn-danger">
                                                                 
                             </div>
                         </div>

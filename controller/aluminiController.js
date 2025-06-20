@@ -7,7 +7,7 @@ import aluminiSchema from '../model/aluminiSchema.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import jobSchema from "./jobSchema.js";
+import jobSchema from "../model/jobSchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;

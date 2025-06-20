@@ -10,7 +10,9 @@ export const message ={
     event_not_updated:"unable to update event",
     event_updated:"event updated successfully",
     mail_erroo:"error while sending mail",
-    fileUploadError:"error while uploading file"
+    fileUploadError:"error while uploading file",
+    deleteError:"error while deleting",
+    deleteSuccess:"deleted Successfully"
 }
 
 export const status = {

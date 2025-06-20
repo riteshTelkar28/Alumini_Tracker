@@ -7,6 +7,8 @@ import uuid4 from "uuid4";
 import moment from "moment";
 import eventSchema from "../model/eventSchema.js";
 import aluminiSchema from "../model/aluminiSchema.js";
+import jobSchema from "../model/jobSchema.js";
+
 
 dotenv.config();
 
@@ -181,5 +183,37 @@ export const adminUpdateAluminiController = async(request,response)=>{
         const aluminiData = await aluminiSchema.find({status:true});
         response.render("adminviewAluminis.ejs",{aluminiData,message:message.somethingwentwrong})
 
+    }
+}
+
+export const adminViewJobsController = async(request,response)=>{
+    try{
+        const jobData = await jobSchema.find({status:true});
+        response.render("adminViewJobs.ejs",{jobData,email:request.payload.email,message:""});
+
+    }catch(error){
+        response.render("adminHome.ejs",{email:request.payload.email,message:message.somethingwentwrong})
+    }
+}
+
+export const adminDeleteJobController = async(request,response)=>{
+    try{
+        const jobId = request.body.jobId;
+        const change = {
+            status:false
+        }
+        const res = await jobSchema.updateOne({jobId},change);
+        // console.log(res)
+        if(res.modifiedCount){
+            const jobData = await jobSchema.find({status:true});
+            response.render("adminViewJobs.ejs",{jobData,email:request.payload.email,message:message.deleteSuccess});
+        }else{
+            const jobData = await jobSchema.find({status:true});
+            response.render("adminViewJobs.ejs",{jobData,email:request.payload.email,message:message.somethingwentwrong});
+        }
+    }catch(error){
+        console.log("error while deleting ",error);
+            const jobData = await jobSchema.find({status:true});
+            response.render("adminViewJobs.ejs",{jobData,email:request.payload.email,message:message.deleteError});
     }
 }

@@ -1,6 +1,8 @@
 import express from 'express';
-import { adminAddEventController, adminDeleteEventController, adminEventUpdateController, adminHomeController, adminLoginController, adminUpdateAluminiController, adminUpdateEventController, adminViewAluminiController, adminViewEventController } from '../controller/adminController.js';
+import { adminAddEventController, adminDeleteEventController, adminDeleteJobController, adminEventUpdateController, adminHomeController, adminLoginController, adminUpdateAluminiController, adminUpdateEventController, adminViewAluminiController, adminViewEventController, adminViewJobsController } from '../controller/adminController.js';
+
 import { message, status } from '../utils/statusMessage.js';
+
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -68,5 +70,7 @@ adminRouter.get("/adminViewAlumini",authenticateJWT,adminViewAluminiController);
 adminRouter.post("/adminUpdateAlumini",authenticateJWT,adminUpdateAluminiController);
 
 adminRouter.get("/adminViewJobs",authenticateJWT,adminViewJobsController);
+
+adminRouter.post("/adminDeleteJob",authenticateJWT,adminDeleteJobController);
 
 export default adminRouter;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { aluminiEmailVerifyController, aluminiJobPostingController, aluminiLoginController, aluminiRegistrationController } from '../controller/aluminiController.js';
+import { aluminiAddForumTopicController, aluminiEmailVerifyController, aluminiJobPostingController, aluminiLoginController, aluminiRegistrationController } from '../controller/aluminiController.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { message } from '../utils/statusMessage.js';
@@ -45,7 +45,7 @@ aluminiRouter.post("/aluminiVerifyEmail",aluminiEmailVerifyController);
 aluminiRouter.post("/aluminiLogin",aluminiLoginController);
 
 aluminiRouter.get("/aluminiHome",authenticateJWT,(request,response)=>{
-    response.render("aluminiHome.ejs",{email:request.payload.email});
+    response.render("aluminiHome.ejs",{email:request.payload.email,message:""});
 })
 
 aluminiRouter.get("/aluminiJobs",authenticateJWT,(request,response)=>{
@@ -54,5 +54,14 @@ aluminiRouter.get("/aluminiJobs",authenticateJWT,(request,response)=>{
 
 aluminiRouter.post("/aluminiJobs",authenticateJWT,aluminiJobPostingController);
 
+aluminiRouter.get("/aluminiAddForumTopic",authenticateJWT,(request,response)=>{
+    response.render("aluminiAddForumTopic.ejs",{message:""});
+});
 
+aluminiRouter.post("/aluminiAddForumTopic",authenticateJWT,aluminiAddForumTopicController);
+
+aluminiRouter.get("/aluminiLogout",(request,response)=>{
+    response.clearCookie('alumini_jwt');
+    response.render("home.ejs")
+})
 export default aluminiRouter;

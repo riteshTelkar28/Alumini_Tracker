@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import jobSchema from "../model/jobSchema.js";
+import forumSchema from "../model/forumSchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -130,4 +131,26 @@ export const aluminiJobPostingController = async(request,response)=>{
         response.render("aluminiJobForm.ejs",{email:request.payload.email,message:"unable to post job"});
 
     }
+}
+
+
+export const aluminiAddForumTopicController = async(request,response)=>{
+    try{
+        // console.log(request.body)
+        request.body.forumId = uuid4();
+        const aluminiObject = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        request.body.aluminiId = aluminiObject.aluminiId;
+
+        const res = await forumSchema.create(request.body);
+        if(res){
+            response.render("aluminiAddForumTopic.ejs",{message:message.forum_success})
+        }else{
+            response.render("aluminiAddForumTopic.ejs",{message:message.forum_error})
+        }
+
+    }catch(error){
+        console.log("error while adding forum ",error);
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:message.forum_error});
+    }
+
 }

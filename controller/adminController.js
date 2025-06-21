@@ -8,6 +8,8 @@ import moment from "moment";
 import eventSchema from "../model/eventSchema.js";
 import aluminiSchema from "../model/aluminiSchema.js";
 import jobSchema from "../model/jobSchema.js";
+import { DiResponsive } from "react-icons/di";
+import forumSchema from "../model/forumSchema.js";
 
 
 dotenv.config();
@@ -215,5 +217,40 @@ export const adminDeleteJobController = async(request,response)=>{
         console.log("error while deleting ",error);
             const jobData = await jobSchema.find({status:true});
             response.render("adminViewJobs.ejs",{jobData,email:request.payload.email,message:message.deleteError});
+    }
+}
+
+export const adminViewAllForumListController = async(request,response)=>{
+    try{
+        const forumData = await forumSchema.find({status:true});
+        response.render("adminViewAllForumList.ejs",{forumData,message:""});
+
+    }catch(error){
+        console.log("error while viewing all list of forums ",error);
+        response.render("adminHome.ejs",{email:request.payload.email,message:message.view_forum_error})
+    }
+}
+
+export const adminRemoveForumController = async(request,response)=>{
+    try{
+        const change = {
+            $set:{
+                status:false
+            }
+        }
+
+        const res = await forumSchema.updateOne({forumId:request.body.forumId},change);
+        if(res.modifiedCount){
+            const forumData = await forumSchema.find({status:true});
+            response.render("adminViewAllForumList.ejs",{forumData,message:message.remove_forum_success});
+        }else{
+            const forumData = await forumSchema.find({status:true});
+            response.render("adminViewAllForumList.ejs",{forumData,message:message.remove_forum_error});  
+        }
+
+    }catch(error){
+        console.log("error while removing forum ",error);
+        const forumData = await forumSchema.find({status:true});
+        response.render("adminViewAllForumList.ejs",{forumData,message:message.remove_forum_error});
     }
 }

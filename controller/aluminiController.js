@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import jobSchema from "../model/jobSchema.js";
 import forumSchema from "../model/forumSchema.js";
+import { request } from "http";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -153,4 +154,29 @@ export const aluminiAddForumTopicController = async(request,response)=>{
         response.render("aluminiHome.ejs",{email:request.payload.email,message:message.forum_error});
     }
 
+}
+
+export const aluminiViewForumListController = async(request,response)=>{
+    try{
+        const aluminiObject = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        const aluminiId = aluminiObject.aluminiId;
+
+        const forumData = await forumSchema.find({aluminiId});
+        response.render("aluminiViewForumList.ejs",{forumData});
+
+    }catch(error){
+        console.log("error while viewing list ",error)
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:message.view_forum_error});
+    }
+}
+
+export const aluminiViewAllForumListController = async(request,response)=>{
+    try{
+        const forumData = await forumSchema.find({status:true});
+        response.render("aluminiViewAllForumList.ejs",{forumData});
+
+    }catch(error){
+        console.log("error while viewing all list of forums ",error);
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:message.view_forum_error})
+    }
 }

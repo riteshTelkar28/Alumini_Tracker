@@ -11,7 +11,14 @@ const forumSchema = mongoose.Schema({
         type:String,
         required:true
     },
-
+    topic:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
     startDate:{
         type:String,
         default : ()=> moment(new Date()).format('DD-MM-YYYY')

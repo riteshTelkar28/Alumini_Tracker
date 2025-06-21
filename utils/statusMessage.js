@@ -14,7 +14,10 @@ export const message ={
     deleteError:"error while deleting",
     deleteSuccess:"deleted Successfully",
     forum_error:"unable to add forum | please try later",
-    forum_success:"topic and description added"
+    forum_success:"topic and description added",
+    view_forum_error:"error while viewing forum",
+    remove_forum_error:"error while removing forum",
+    remove_forum_success:"forum removed"
 }
 
 export const status = {

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+    <base href="/">
+    <head>
+        <meta charset="utf-8">
+        <title>job Tracker - application of college jobs</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Construction Company Website Template" name="keywords">
+        <meta content="Construction Company Website Template" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <!-- CSS Libraries -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="lib/flaticon/font/flaticon.css" rel="stylesheet"> 
+        <link href="lib/animate/animate.min.css" rel="stylesheet">
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="lib/slick/slick.css" rel="stylesheet">
+        <link href="lib/slick/slick-theme.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <!-- Top Bar Start -->
+            <div class="top-bar">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-md-12">
+                            <div class="logo">
+                                <a href="index.html">
+                                    <h2>job Tracker</h2>
+                                    <!-- <img src="img/logo.jpg" alt="Logo"> -->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-7 d-none d-lg-block">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="top-bar-item">
+                                        <div class="top-bar-icon">
+                                            <i class="flaticon-calendar"></i>
+                                        </div>
+                                        <div class="top-bar-text">
+                                            <h3>College Hour</h3>
+                                            <p>Mon - Fri </p>  <p></p> 8:00 am - 9:00 pm</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="top-bar-item">
+                                        <div class="top-bar-icon">
+                                            <i class="flaticon-call"></i>
+                                        </div>
+                                        <div class="top-bar-text">
+                                            <h3>Call Us</h3>
+                                            <p>+012 345 6789</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="top-bar-item">
+                                        <div class="top-bar-icon">
+                                            <i class="flaticon-send-mail"></i>
+                                        </div>
+                                        <div class="top-bar-text">
+                                            <h3>Email Us</h3>
+                                            <p>info@example.com</p>
+                                            <p>admin@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Top Bar End -->
+
+            <%-include('./aluminiHeader.ejs') %>
+
+            <!-- About Start -->
+            <div class="about wow fadeInUp" data-wow-delay="0.1s">
+                <div class="container">
+                    <h2><span style="color: orangered;"><%=message%></span></h2>
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 col-md-12 table table-responsive">
+                            <div class="about-text">
+                                <% if(forumData.length == 0){ %>
+                                    <h1><center><span style="color: red;">No data found</span></center></h1>
+                                <%}else{%>
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Forum Id</th>
+                                                <th>Alumini Id</th>
+                                                <th>Topic</th>
+                                                <th>Description</th>
+                                                <th>status</th>
+                                                <th>start Date</th>
+                                                <th>start time</th>
+                                                <th >Join</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% forumData.forEach((forum,index)=>{%>
+                                                <tr>
+                                                    <td> <%= index+1 %> </td>
+                                                    <td> <%= forum.forumId %> </td>
+                                                    <td> <%= forum.aluminiId %> </td>
+                                                    <td> <%= forum.topic %> </td>
+                                                    <td> <%= forum.description %> </td>
+                                                    <td> <%= forum.status %> </td>
+                                                    <td> <%= forum.startDate %> </td>
+                                                    <td> <%= forum.startTime %> </td>
+                                                    <td><button>Join</button></td>
+                                                    <td>
+                                                        <form action="/admin/adminRemoveForum" method="post">
+                                                            <input type="hidden" name="forumId" value="<%=forum.forumId%>">
+                                                            <button>Remove</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <%}) %>
+                                        </tbody>
+                                    </table>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- About End -->
+
+            <!-- Footer Start -->
+            <%-include('./footer.ejs')%>
+
+        </div>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/counterup/counterup.min.js"></script>
+        <script src="lib/slick/slick.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+    </body>
+</html>

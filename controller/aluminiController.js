@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import jobSchema from "../model/jobSchema.js";
 import forumSchema from "../model/forumSchema.js";
 import { request } from "http";
+import { json } from "stream/consumers";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -178,5 +179,30 @@ export const aluminiViewAllForumListController = async(request,response)=>{
     }catch(error){
         console.log("error while viewing all list of forums ",error);
         response.render("aluminiHome.ejs",{email:request.payload.email,message:message.view_forum_error})
+    }
+}
+
+export const aluminiJoinForumController = async(request,response)=>{
+    try{
+        const forumDetails = JSON.parse(request.body.forumDetails);
+        response.render("aluminiChat.ejs",{forumDetails,message:""});
+
+    }catch(error){
+        console.log("error while joinin forum ",error);
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:message.view_forum_error});
+
+    }
+}
+
+export const aluminiForumChatController = async(request,response)=>{
+    try{
+        const forumDetails = JSON.parse(request.body.forumDetails)
+        console.log(request.body.message)
+
+    }catch(error){
+        console.log("error while chatting ",error)
+        const forumDetails = JSON.parse(request.body.forumDetails);
+        response.render("aluminiChat.ejs",{forumDetails,message:""});
+        
     }
 }

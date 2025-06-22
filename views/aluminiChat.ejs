@@ -3,7 +3,7 @@
     <base href="/">
     <head>
         <meta charset="utf-8">
-        <title>job Tracker - application of college jobs</title>
+        <title>Alumini Tracker - application of college aluminis</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Construction Company Website Template" name="keywords">
         <meta content="Construction Company Website Template" name="description">
@@ -37,7 +37,7 @@
                         <div class="col-lg-4 col-md-12">
                             <div class="logo">
                                 <a href="index.html">
-                                    <h2>job Tracker</h2>
+                                    <h2>Alumini Tracker</h2>
                                     <!-- <img src="img/logo.jpg" alt="Logo"> -->
                                 </a>
                             </div>
@@ -85,55 +85,33 @@
             </div>
             <!-- Top Bar End -->
 
-            <%-include('./aluminiHeader.ejs') %>
+            <%-include('./aluminiHeader.ejs')%>
 
             <!-- About Start -->
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
-                    <!-- <h2><span style="color: orangered;"></span></h2> -->
                     <div class="row align-items-center">
-                        <div class="col-lg-12 col-md-12 table table-responsive">
-                            <div class="about-text">
-                                <% if(forumData.length == 0){ %>
-                                    <h1><center><span style="color: red;">No data found</span></center></h1>
-                                <%}else{%>
-                                    <table border="1">
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Forum Id</th>
-                                                <th>Alumini Id</th>
-                                                <th>Topic</th>
-                                                <th>Description</th>
-                                                <th>status</th>
-                                                <th>start Date</th>
-                                                <th>start time</th>
-                                                <th >Join</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% forumData.forEach((forum,index)=>{%>
-                                                <tr>
-                                                    <td> <%= index+1 %> </td>
-                                                    <td> <%= forum.forumId %> </td>
-                                                    <td> <%= forum.aluminiId %> </td>
-                                                    <td> <%= forum.topic %> </td>
-                                                    <td> <%= forum.description %> </td>
-                                                    <td> <%= forum.status %> </td>
-                                                    <td> <%= forum.startDate %> </td>
-                                                    <td> <%= forum.startTime %> </td>
-                                                    <td>
-                                                        <form action="/alumini/aluminiJoinForum" method="post">
-                                                            <input type="hidden" name="forumDetails" value="<%= JSON.stringify(forum)%>">
-                                                            <button class="btn btn-danger">Join Forum</button>
-
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            <%}) %>
-                                        </tbody>
-                                    </table>
-                                <%}%>
+                        <div class="col-lg-5 col-md-6">
+                            <div class="about-img" style="margin-top: 100px;">
+                                <img src="img/chat.jpeg" alt="Image">
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-6" >
+                            <div class="section-header text-left">
+                                <h4>Forum</h4>
+                                <h5><%= forumDetails.topic %></h5>
+                                <h6><%= forumDetails.description %></h6>
+                                <%= forumDetails.startDate %> | <%= forumDetails.startTime %>
+                            </div>
+                            <div class="about-text bg-warning" style="height: 60vh; margin-top: 0px;">
+                                <div class="bg-secondary"  style="height: 80%; overflow-y: scroll;"></div>
+                                <div class="bg-black" style="height: 20%;">
+                                    <form action="/alumini/aluminiForumChat" method="post">
+                                        <input type="hidden" name="forumDetails" value="<%= JSON.stringify(forumDetails) %>" >
+                                        <textarea name="message" id="message" placeholder="enter text here " class="col-lg-8 m-3" style="border-radius: 10px;"></textarea>
+                                        <button class="col-lg-3 btn btn-danger" style="margin-top: -75px;">send</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -141,9 +119,7 @@
             </div>
             <!-- About End -->
 
-            <!-- Footer Start -->
             <%-include('./footer.ejs')%>
-
         </div>
 
         <!-- JavaScript Libraries -->

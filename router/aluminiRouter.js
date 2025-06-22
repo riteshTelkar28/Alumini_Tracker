@@ -1,5 +1,6 @@
 import express from 'express';
-import { aluminiAddForumTopicController, aluminiEmailVerifyController, aluminiJobPostingController, aluminiLoginController, aluminiRegistrationController, aluminiViewAllForumListController, aluminiViewForumListController } from '../controller/aluminiController.js';
+import { aluminiAddForumTopicController, aluminiEmailVerifyController, aluminiForumChatController, aluminiJobPostingController, aluminiJoinForumController, aluminiLoginController, aluminiRegistrationController, aluminiViewAllForumListController, aluminiViewForumListController } from '../controller/aluminiController.js';
+
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { message } from '../utils/statusMessage.js';
@@ -69,5 +70,7 @@ aluminiRouter.get("/aluminiViewForumList",authenticateJWT,aluminiViewForumListCo
 
 aluminiRouter.get("/aluminiViewAllForumList",authenticateJWT,aluminiViewAllForumListController);
 
+aluminiRouter.post("/aluminiJoinForum",authenticateJWT,aluminiJoinForumController);
 
+aluminiRouter.post("/aluminiForumChat",authenticateJWT,aluminiForumChatController);
 export default aluminiRouter;

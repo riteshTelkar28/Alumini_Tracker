@@ -9,8 +9,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import jobSchema from "../model/jobSchema.js";
 import forumSchema from "../model/forumSchema.js";
-import { request } from "http";
-import { json } from "stream/consumers";
+import forumChatSchema from "../model/forumChatSchema.js";
+import forumMemberSchema from "../model/forumMemberSchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -173,8 +173,20 @@ export const aluminiViewForumListController = async(request,response)=>{
 
 export const aluminiViewAllForumListController = async(request,response)=>{
     try{
-        const forumData = await forumSchema.find({status:true});
-        response.render("aluminiViewAllForumList.ejs",{forumData});
+        const forumData = await forumSchema.find();
+        const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        const aluminiId = aluminiObj.aluminiId;
+        const forumMemberArray =  await forumMemberSchema.find(); 
+        for(let i=0;i<forumData.length;i++){
+            for(let j=0;j<forumMemberArray.length;j++){
+                if(forumMemberArray[j].forumId == forumData[i].forumId && forumMemberArray[j].aluminiId == aluminiId){
+                    forumData[i].statusMessage = 'send message'
+                }else{
+                    forumData[i].statusMessage = 'Join Forum'
+                }
+            }
+        }
+        response.render("aluminiViewAllForumList.ejs",{forumData,message:""});
 
     }catch(error){
         console.log("error while viewing all list of forums ",error);
@@ -185,7 +197,21 @@ export const aluminiViewAllForumListController = async(request,response)=>{
 export const aluminiJoinForumController = async(request,response)=>{
     try{
         const forumDetails = JSON.parse(request.body.forumDetails);
-        response.render("aluminiChat.ejs",{forumDetails,message:""});
+        const forumId = forumDetails.forumId;
+        const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        const aluminiId = aluminiObj.aluminiId;
+        const check = await forumMemberSchema.find({forumId,aluminiId});
+        if(check.length==0){
+            const res = await forumMemberSchema.create({forumMemberId:uuid4(),forumId,aluminiId});
+            if(res){
+                response.render("aluminiChat.ejs",{forumDetails})
+            }else{
+                const forumData = await forumSchema.find({status:true});
+                response.render("aluminiViewAllForumList.ejs",{forumData,message:"unable to join"});   
+            }
+        }else{
+                response.render("aluminiChat.ejs",{forumDetails})   
+        }
 
     }catch(error){
         console.log("error while joinin forum ",error);
@@ -197,7 +223,9 @@ export const aluminiJoinForumController = async(request,response)=>{
 export const aluminiForumChatController = async(request,response)=>{
     try{
         const forumDetails = JSON.parse(request.body.forumDetails)
-        console.log(request.body.message)
+        forumDetails.message = request.body.message;
+        const res = await forumChatSchema.create(forumDetails);
+        console.log("chat added successfully")
 
     }catch(error){
         console.log("error while chatting ",error)

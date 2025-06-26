@@ -101,10 +101,30 @@
                                 <h4>Forum</h4>
                                 <h5><%= forumDetails.topic %></h5>
                                 <h6><%= forumDetails.description %></h6>
-                                <%= forumDetails.startDate %> | <%= forumDetails.startTime %>
+                                <%= forumDetails.startDate %> | <%= forumDetails.startTime %> | <%= totalMembers %> Members
                             </div>
                             <div class="about-text bg-warning" style="height: 60vh; margin-top: 0px;">
-                                <div class="bg-secondary"  style="height: 80%; overflow-y: scroll;"></div>
+                                <div class="bg-secondary"  style="height: 80%; overflow-y: scroll;">
+                                    <%if(chatData.length){%>
+                                        <%chatData.forEach((obj)=>{%>
+                                            <%if(obj.aluminiId == myId){%>
+                                            <div style="height: auto;float: right ;width:70%;background-color: goldenrod;margin: 5px; padding: 10px;">
+                                                <%=myId%> <br>
+                                                <%=obj.message%> <br>
+                                                <small><%=obj.sentTime%> | <%=obj.sentDate%> </small>
+                                            </div>
+                                            <%}else{%>
+                                            <div style="height: auto;float: left;width:70%;background-color: goldenrod;margin: 5px; padding: 10px;">
+                                                <%=myId%> <br>
+                                                <%=obj.message%> <br>
+                                                <small><%=obj.sentTime%> | <%=obj.sentDate%> </small>
+                                            </div>
+                                            <%}%>
+                                       <%})%>
+                                    <%}else{%>
+                                        <h4 style="color: white;">No chat available</h4>
+                                    <%}%>
+                                </div>
                                 <div class="bg-black" style="height: 20%;">
                                     <form action="/alumini/aluminiForumChat" method="post">
                                         <input type="hidden" name="forumDetails" value="<%= JSON.stringify(forumDetails) %>" >

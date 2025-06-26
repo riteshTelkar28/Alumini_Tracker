@@ -5,6 +5,10 @@ import moment from "moment";
 mongoose.connect(url)
 
 const forumChatSchema = mongoose.Schema({
+    forumChatId:{
+        type:String,
+        required:true
+    },
     forumId:{
         type:String,
         required:true

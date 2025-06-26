@@ -125,12 +125,7 @@
                                                     <td>
                                                         <form action="/alumini/aluminiJoinForum" method="post">
                                                             <input type="hidden" name="forumDetails" value="<%= JSON.stringify(forum)%>">
-                                                            <%if(forum.statusMessage){%>
-                                                                <button class="btn btn-danger"><%=forum.statusMessage%></button>
-                                                            <%}else{%>
-                                                                <button class="btn btn-danger" >Join Forum</button>
-                                                            <%}%>
-
+                                                            <button class="btn btn-danger" ><%=forum.statusMessage%></button>
                                                         </form>
                                                     </td>
                                                 </tr>

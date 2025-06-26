@@ -181,9 +181,9 @@ export const aluminiViewAllForumListController = async(request,response)=>{
             for(let j=0;j<forumMemberArray.length;j++){
                 if(forumMemberArray[j].forumId == forumData[i].forumId && forumMemberArray[j].aluminiId == aluminiId){
                     forumData[i].statusMessage = 'send message'
-                }else{
-                    forumData[i].statusMessage = 'Join Forum'
-                }
+                }//else{
+                //     forumData[i].statusMessage = 'Join Forum'
+                // }
             }
         }
         response.render("aluminiViewAllForumList.ejs",{forumData,message:""});
@@ -198,19 +198,23 @@ export const aluminiJoinForumController = async(request,response)=>{
     try{
         const forumDetails = JSON.parse(request.body.forumDetails);
         const forumId = forumDetails.forumId;
+        const chatData = await forumChatSchema.find({forumId:forumDetails.forumId})
+        console.log("chat data in join forum controller ",chatData)
         const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
         const aluminiId = aluminiObj.aluminiId;
         const check = await forumMemberSchema.find({forumId,aluminiId});
+        const specificId = await forumMemberSchema.find({forumId});
+        const totalMembers = specificId.length;
         if(check.length==0){
             const res = await forumMemberSchema.create({forumMemberId:uuid4(),forumId,aluminiId});
             if(res){
-                response.render("aluminiChat.ejs",{forumDetails})
+                response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData,myId:aluminiId}) 
             }else{
                 const forumData = await forumSchema.find({status:true});
                 response.render("aluminiViewAllForumList.ejs",{forumData,message:"unable to join"});   
             }
         }else{
-                response.render("aluminiChat.ejs",{forumDetails})   
+                response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData,myId:aluminiId})   
         }
 
     }catch(error){
@@ -223,14 +227,29 @@ export const aluminiJoinForumController = async(request,response)=>{
 export const aluminiForumChatController = async(request,response)=>{
     try{
         const forumDetails = JSON.parse(request.body.forumDetails)
-        forumDetails.message = request.body.message;
-        const res = await forumChatSchema.create(forumDetails);
-        console.log("chat added successfully")
-
+        const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        const obj = {
+            forumChatId:uuid4(),
+            forumId:forumDetails.forumId,
+            aluminiId:aluminiObj.aluminiId,
+            message:request.body.message
+        }
+        const res = await forumChatSchema.create(obj);
+        const specificId = await forumMemberSchema.find({forumId:forumDetails.forumId});
+        const totalMembers = specificId.length;
+        if(res){
+            const chatData = await forumChatSchema.find({forumId:forumDetails.forumId})
+            console.log("chat data ",chatData)
+            response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData,myId:aluminiObj.aluminiId})
+        }else{
+            // response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData})
+            const chatData = await forumChatSchema.find({forumId:forumDetails.forumId})
+            console.log("chat data ",chatData)
+            response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData,myId:aluminiObj.aluminiId})
+        }
     }catch(error){
         console.log("error while chatting ",error)
-        const forumDetails = JSON.parse(request.body.forumDetails);
-        response.render("aluminiChat.ejs",{forumDetails,message:""});
-        
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:""});
+
     }
 }

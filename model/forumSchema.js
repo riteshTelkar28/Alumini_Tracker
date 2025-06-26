@@ -19,6 +19,10 @@ const forumSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    statusMessage:{
+        type:String,
+        default:"Join Forum"
+    },
     startDate:{
         type:String,
         default : ()=> moment(new Date()).format('DD-MM-YYYY')

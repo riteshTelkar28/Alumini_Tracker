@@ -11,6 +11,7 @@ import jobSchema from "../model/jobSchema.js";
 import forumSchema from "../model/forumSchema.js";
 import forumChatSchema from "../model/forumChatSchema.js";
 import forumMemberSchema from "../model/forumMemberSchema.js";
+import eventSchema from "../model/eventSchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -199,6 +200,11 @@ export const aluminiJoinForumController = async(request,response)=>{
         const forumDetails = JSON.parse(request.body.forumDetails);
         const forumId = forumDetails.forumId;
         const chatData = await forumChatSchema.find({forumId:forumDetails.forumId})
+        for(var i=0;i<chatData.length;i++
+        ){
+            const aluminiObj =  await aluminiSchema.findOne({aluminiId:chatData[i].aluminiId},{username:1});
+            chatData[i].aluminiName = aluminiObj.username
+        }
         console.log("chat data in join forum controller ",chatData)
         const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
         const aluminiId = aluminiObj.aluminiId;
@@ -239,11 +245,21 @@ export const aluminiForumChatController = async(request,response)=>{
         const totalMembers = specificId.length;
         if(res){
             const chatData = await forumChatSchema.find({forumId:forumDetails.forumId})
+            for(var i=0;i<chatData.length;i++
+            ){
+            const aluminiObj =  await aluminiSchema.findOne({aluminiId:chatData[i].aluminiId},{username:1});
+            chatData[i].aluminiName = aluminiObj.username
+            }
             console.log("chat data ",chatData)
             response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData,myId:aluminiObj.aluminiId})
         }else{
             // response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData})
             const chatData = await forumChatSchema.find({forumId:forumDetails.forumId})
+            for(var i=0;i<chatData.length;i++
+        ){
+            const aluminiObj =  await aluminiSchema.findOne({aluminiId:chatData[i].aluminiId},{username:1});
+            chatData[i].aluminiName = aluminiObj.username
+        }
             console.log("chat data ",chatData)
             response.render("aluminiChat.ejs",{forumDetails,totalMembers,chatData,myId:aluminiObj.aluminiId})
         }
@@ -251,5 +267,16 @@ export const aluminiForumChatController = async(request,response)=>{
         console.log("error while chatting ",error)
         response.render("aluminiHome.ejs",{email:request.payload.email,message:""});
 
+    }
+}
+
+export const aluminiViewEventController = async(request,response)=>{
+    try{
+        const eventData = await eventSchema.find({status:true});
+        response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:""})
+    }
+    catch(error){
+        console.log("error while adding event ",error);
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:message.event_not_viewed})
     }
 }

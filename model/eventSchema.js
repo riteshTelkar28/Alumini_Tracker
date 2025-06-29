@@ -78,7 +78,10 @@ const eventSchema = mongoose.Schema(
             type:String,
             required:true
         },
-
+        acceptInvitation:{
+            type:String,
+            default:'Accept Invitation'
+        },
         status:{
             type:Boolean,
             default:true

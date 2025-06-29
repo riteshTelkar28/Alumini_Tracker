@@ -38,8 +38,6 @@ const eventConfirmationSchema = mongoose.Schema({
         default:true
     }
     
-    
-    
 })
 
 export default mongoose.model('eventConfirmationSchema',eventConfirmationSchema,'eventConfirmation')

@@ -12,6 +12,7 @@ import forumSchema from "../model/forumSchema.js";
 import forumChatSchema from "../model/forumChatSchema.js";
 import forumMemberSchema from "../model/forumMemberSchema.js";
 import eventSchema from "../model/eventSchema.js";
+import eventConfirmationSchema from "../model/eventConfirmationSchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -279,4 +280,44 @@ export const aluminiViewEventController = async(request,response)=>{
         console.log("error while adding event ",error);
         response.render("aluminiHome.ejs",{email:request.payload.email,message:message.event_not_viewed})
     }
+}
+
+export const aluminiAcceptInvitationController = async(request,response)=>{
+    try{
+        const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1,username:1})
+        const obj = {
+            eventConfirmationId:uuid4(),
+            eventId:request.body.eventId,
+            eventName:request.body.eventName,
+            aluminiId:aluminiObj.aluminiId,
+            aluminiName:aluminiObj.username      
+        }
+
+        const result = await eventConfirmationSchema.create(obj);
+        // console.log("result ",result);
+        if(result){
+            const change = {
+                $set:{
+                    acceptInvitation:'Accepted'
+                }
+            }
+            const status = await eventSchema.updateOne({eventId:request.body.eventId},change)
+            if(status.modifiedCount){
+                const eventData = await eventSchema.find({status:true});
+                response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Invitation Accepted"})
+            }else{
+                const eventData = await eventSchema.find({status:true});
+                response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Error while accepting data"})
+            }
+        }else{
+            const eventData = await eventSchema.find({status:true});
+            response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Error while accepting data"})        
+        }
+
+    }catch(error){
+        console.log("error while accepting event ",error)
+        const eventData = await eventSchema.find({status:true});
+        response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Error while accepting data"})
+    }
+
 }

@@ -273,8 +273,21 @@ export const aluminiForumChatController = async(request,response)=>{
 
 export const aluminiViewEventController = async(request,response)=>{
     try{
+        // console.log("in aluminiViewEventController with email  ",request.payload.email)
         const eventData = await eventSchema.find({status:true});
-        response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:""})
+        const eventConfirmationData = await eventConfirmationSchema.find();
+        const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        const aluminiId = aluminiObj.aluminiId;
+        if(eventConfirmationData.length){
+            for(var i=0;i<eventData.length;i++){
+                for(var j=0;j<eventConfirmationData.length;j++){
+                    if(eventConfirmationData[j].eventId == eventData[i].eventId && eventConfirmationData[j].aluminiId == aluminiId){
+                        eventData[j].acceptInvitation = "Invitation Accepted"
+                    }
+                }
+            }
+        }
+        response.render("aluminiViewEvent",{eventData:eventData,message:""})
     }
     catch(error){
         console.log("error while adding event ",error);
@@ -292,28 +305,24 @@ export const aluminiAcceptInvitationController = async(request,response)=>{
             aluminiId:aluminiObj.aluminiId,
             aluminiName:aluminiObj.username      
         }
-
+        // console.log("in aluminiAcceptInvitationController  with username  ",obj.aluminiName)
         const result = await eventConfirmationSchema.create(obj);
-        // console.log("result ",result);
         if(result){
-            const change = {
-                $set:{
-                    acceptInvitation:'Accepted'
+            const eventData = await eventSchema.find({status:true});
+            const eventConfirmationData = await eventConfirmationSchema.find();
+            const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+            const aluminiId = aluminiObj.aluminiId;
+            if(eventConfirmationData.length){
+                for(var i=0;i<eventData.length;i++){
+                    for(var j=0;j<eventConfirmationData.length;j++){
+                        if(eventConfirmationData[j].eventId == eventData[i].eventId && eventConfirmationData[j].aluminiId == aluminiId){
+                            eventData[i].acceptInvitation = "Invitation Accepted"
+                        }
+                    }
                 }
             }
-            const status = await eventSchema.updateOne({eventId:request.body.eventId},change)
-            if(status.modifiedCount){
-                const eventData = await eventSchema.find({status:true});
-                response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Invitation Accepted"})
-            }else{
-                const eventData = await eventSchema.find({status:true});
-                response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Error while accepting data"})
-            }
-        }else{
-            const eventData = await eventSchema.find({status:true});
-            response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Error while accepting data"})        
+            response.render("aluminiViewEvent",{eventData:eventData,message:"invitation accepted"})
         }
-
     }catch(error){
         console.log("error while accepting event ",error)
         const eventData = await eventSchema.find({status:true});

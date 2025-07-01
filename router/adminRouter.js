@@ -1,5 +1,5 @@
 import express from 'express';
-import { adminAddEventController, adminDeleteEventController, adminDeleteJobController, adminEventUpdateController, adminHomeController, adminLoginController, adminRemoveForumController, adminUpdateAluminiController, adminUpdateEventController, adminViewAllForumListController, adminViewAluminiController, adminViewEventController, adminViewJobsController } from '../controller/adminController.js';
+import { adminAddEventController, adminDeleteEventController, adminDeleteJobController, adminEventUpdateController, adminHomeController, adminLoginController, adminRemoveForumController, adminUpdateAluminiController, adminUpdateEventController, adminViewAllForumListController, adminViewAluminiController, adminViewEventController, adminViewJobsController,adminViewAluminiStatusController } from '../controller/adminController.js';
 
 import { message, status } from '../utils/statusMessage.js';
 
@@ -75,6 +75,8 @@ adminRouter.post("/adminDeleteJob",authenticateJWT,adminDeleteJobController);
 
 adminRouter.get("/adminViewAllForumList",authenticateJWT,adminViewAllForumListController);
 
-adminRouter.post("/adminRemoveForum",authenticateJWT,adminRemoveForumController)
+adminRouter.post("/adminRemoveForum",authenticateJWT,adminRemoveForumController);
+
+adminRouter.get("/viewAluminiStatus",authenticateJWT,adminViewAluminiStatusController);
 
 export default adminRouter;

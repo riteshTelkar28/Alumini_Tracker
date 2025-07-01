@@ -85,60 +85,35 @@
             </div>
             <!-- Top Bar End -->
 
-            <%-include('./aluminiHeader.ejs') %>
+            <%-include('./AdminHeader.ejs') %>
 
             <!-- About Start -->
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <center> <%=message%> </center>
                         <div class="col-lg-12 col-md-12 table table-responsive">
                             <div class="about-text">
-                                <% if(eventData.length == 0){ %>
+                                <% if(eventConfirmationData.length == 0){ %>
                                     <center>No data found</center>
                                 <%}else{%>
-                                    <table>
+                                    <table border="1">
                                         <thead>
                                             <tr>
                                                 <th>S.No</th>
+                                                <th>Alumini Id</th>
+                                                <th>Alumini Name</th>
+                                                <th>Event Id</th>
                                                 <th>Event Name</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>Starting Time</th>
-                                                <th>Ending Time</th>
-                                                <th>location</th>
-                                                <th>description</th>
-                                                <th>Type</th>
-                                                <th>Uploading Date</th>
-                                                <th>Uploading Time</th>
-                                                <th>Accept Invitation</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% eventData.forEach((event,index)=>{%>
+                                            <% eventConfirmationData.forEach((event,index)=>{%>
                                                 <tr>
-                                                    <td><%=index+1%></td>
+                                                    <td> <%= index+1 %> </td>
+                                                    <td> <%= event.aluminiId %> </td>
+                                                    <td> <%= event.aluminiName %> </td>
+                                                    <td> <%= event.eventId %> </td>
                                                     <td> <%= event.eventName %> </td>
-                                                    <td> <%= event.eventStartDate %> </td>
-                                                    <td> <%= event.eventEndDate %> </td>
-                                                    <td> <%= event.eventStartTime %> </td>
-                                                    <td> <%= event.eventEndTime %> </td>
-                                                    <td> <%= event.location %> </td>
-                                                    <td> <%= event.description %> </td>
-                                                    <td> <%= event.eventType %> </td>
-                                                    <td> <%= event.eventUploadDate %> </td>
-                                                    <td> <%= event.eventUploadTime %> </td>
-                                                    <td>
-                                                        <form action="/alumini/aluminiAcceptInvitation" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <input type="hidden" name="eventName" value="<%=event.eventName%>">
-                                                            <%if(event.acceptInvitation=="Invitation Accepted"){%>
-                                                                <p style="color: green;">Invitation Accepted</p>
-                                                            <%}else{%>
-                                                                <button class="btn btn-danger" >Accept Invitation</button>
-                                                            <%}%>
-                                                        </form> 
-                                                    </td>                                                 
                                                 </tr>
                                             <%}) %>
                                         </tbody>

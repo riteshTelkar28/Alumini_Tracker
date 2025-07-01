@@ -10,6 +10,8 @@ import aluminiSchema from "../model/aluminiSchema.js";
 import jobSchema from "../model/jobSchema.js";
 import { DiResponsive } from "react-icons/di";
 import forumSchema from "../model/forumSchema.js";
+import { request } from "express";
+import eventConfirmationSchema from "../model/eventConfirmationSchema.js";
 
 
 dotenv.config();
@@ -252,5 +254,15 @@ export const adminRemoveForumController = async(request,response)=>{
         console.log("error while removing forum ",error);
         const forumData = await forumSchema.find({status:true});
         response.render("adminViewAllForumList.ejs",{forumData,message:message.remove_forum_error});
+    }
+}
+
+export const adminViewAluminiStatusController = async(request,response)=>{
+    try{
+        const eventConfirmationData = await eventConfirmationSchema.find();
+        response.render("adminViewAluminiStatus",{eventConfirmationData})
+
+    }catch(error){
+        response.render("adminHome.ejs",{email:request.payload.email,message:"error while viewing aluminis"})
     }
 }

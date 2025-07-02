@@ -85,79 +85,35 @@
             </div>
             <!-- Top Bar End -->
 
-            <%-include('./AdminHeader.ejs') %>
+            <%-include('./aluminiHeader.ejs') %>
 
             <!-- About Start -->
             <div class="about wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row align-items-center">
-                        <center> <%=message%> </center>
                         <div class="col-lg-12 col-md-12 table table-responsive">
                             <div class="about-text">
-                                <% if(eventData.length == 0){ %>
+                                <% if(galleryData.length == 0){ %>
                                     <center>No data found</center>
                                 <%}else{%>
-                                    <table>
+                                    <table border="1">
                                         <thead>
                                             <tr>
                                                 <th>S.No</th>
                                                 <th>Event Name</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>Starting Time</th>
-                                                <th>Ending Time</th>
-                                                <th>location</th>
-                                                <th>description</th>
-                                                <th>Type</th>
-                                                <th>criteria</th>
-                                                <th>apply mode</th>
-                                                <th>Apply start</th>
-                                                <th>Apply end</th>
-                                                <th>Uploading Date</th>
-                                                <th>Uploading Time</th>
-                                                <th>Upload Images</th>
-                                                <th colspan="2">Action</th>
+                                                <th>Images</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% eventData.forEach((event,index)=>{%>
+                                            <% galleryData.forEach((gallery,index)=>{%>
                                                 <tr>
-                                                    <td> <%= event.eventName %> </td>
-                                                    <td> <%= event.eventStartDate %> </td>
-                                                    <td> <%= event.eventEndDate %> </td>
-                                                    <td> <%= event.eventStartTime %> </td>
-                                                    <td> <%= event.eventEndTime %> </td>
-                                                    <td> <%= event.location %> </td>
-                                                    <td> <%= event.description %> </td>
-                                                    <td> <%= event.eventType %> </td>
-                                                    <td> <%= event.criteria %> </td>
-                                                    <td> <%= event.modeOfApply %> </td>
-                                                    <td> <%= event.startDate %> </td>
-                                                    <td> <%= event.endDate %> </td>
-                                                    <td> <%= event.eventUploadDate %> </td>
-                                                    <td> <%= event.eventUploadTime %> </td>
+                                                    <td><%=index+1%></td>
+                                                    <td> <%= gallery.eventName %> </td>
                                                     <td>
-                                                        <form action="/admin/adminUploadImages" method="post" enctype="multipart/form-data" >
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-
-                                                            <input type="file" name="images" id="images" multiple>
-
-                                                            <input type="submit" value="Upload Images">
-                                                        </form>
+                                                        <%gallery.images.forEach((image)=>{%>
+                                                            <img src="/images/<%=image%>" height="100" width="100" alt="">
+                                                       <% })%>
                                                     </td>
-                                                    <td>
-                                                        <form action="/admin/adminUpdateEvent" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Update</button>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form action="/admin/adminEventDelete" method="post">
-                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
-                                                            <button>Delete</button>
-                                                        </form>
-                                                    </td>
-                                                    
                                                 </tr>
                                             <%}) %>
                                         </tbody>

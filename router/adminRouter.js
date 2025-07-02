@@ -1,10 +1,9 @@
-import express from 'express';
-import { adminAddEventController, adminDeleteEventController, adminDeleteJobController, adminEventUpdateController, adminHomeController, adminLoginController, adminRemoveForumController, adminUpdateAluminiController, adminUpdateEventController, adminViewAllForumListController, adminViewAluminiController, adminViewEventController, adminViewJobsController,adminViewAluminiStatusController } from '../controller/adminController.js';
-
+import express, { request } from 'express';
+import { adminAddEventController, adminDeleteEventController, adminDeleteJobController, adminEventUpdateController, adminHomeController, adminLoginController, adminRemoveForumController, adminUpdateAluminiController, adminUpdateEventController, adminViewAllForumListController, adminViewAluminiController, adminViewEventController, adminViewJobsController,adminViewAluminiStatusController,adminUploadImageController } from '../controller/adminController.js';
 import { message, status } from '../utils/statusMessage.js';
-
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import multer from 'multer';
 dotenv.config();
 const ADMIN_SECRET = process.env.ADMIN_SECRET_KEY;
 var adminRouter = express.Router();
@@ -78,5 +77,17 @@ adminRouter.get("/adminViewAllForumList",authenticateJWT,adminViewAllForumListCo
 adminRouter.post("/adminRemoveForum",authenticateJWT,adminRemoveForumController);
 
 adminRouter.get("/viewAluminiStatus",authenticateJWT,adminViewAluminiStatusController);
+
+const storage = multer.diskStorage({
+    destination:'./public/images',
+    filename:(request,fileObj,callback)=>{
+        callback(null,new Date().getTime()+fileObj.originalname)
+
+    }
+})
+
+const uploads = multer({storage:storage})
+
+adminRouter.post("/adminUploadImages",authenticateJWT,uploads.fields([{name:'images',maxCount:100}]),adminUploadImageController)
 
 export default adminRouter;

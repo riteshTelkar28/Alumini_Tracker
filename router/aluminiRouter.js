@@ -1,12 +1,14 @@
 import express from 'express';
-import { aluminiAddForumTopicController, aluminiEmailVerifyController, aluminiForumChatController, aluminiJobPostingController, aluminiJoinForumController, aluminiLoginController, aluminiRegistrationController, aluminiViewAllForumListController, aluminiViewEventController, aluminiViewForumListController,aluminiAcceptInvitationController } from '../controller/aluminiController.js';
+import { aluminiAddForumTopicController, aluminiEmailVerifyController, aluminiForumChatController, aluminiJobPostingController, aluminiJoinForumController, aluminiLoginController, aluminiRegistrationController, aluminiViewAllForumListController, aluminiViewEventController, aluminiViewForumListController,aluminiAcceptInvitationController,aluminiDeclineEventController,aluminiViewGalleryController } from '../controller/aluminiController.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import expressFileUpload from 'express-fileupload';
 import { message } from '../utils/statusMessage.js';
 dotenv.config()
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
 
 const aluminiRouter = express.Router();
+aluminiRouter.use(expressFileUpload())
 
 const authenticateJWT = (request,response,next)=>{
     try{
@@ -75,5 +77,9 @@ aluminiRouter.post("/aluminiForumChat",authenticateJWT,aluminiForumChatControlle
 
 aluminiRouter.get("/aluminiViewEvents",authenticateJWT,aluminiViewEventController);
 
-aluminiRouter.post("/aluminiAcceptInvitation",authenticateJWT,aluminiAcceptInvitationController)
+aluminiRouter.post("/aluminiAcceptInvitation",authenticateJWT,aluminiAcceptInvitationController);
+
+aluminiRouter.post("/aluminiDeclineEvent",authenticateJWT,aluminiDeclineEventController)
+
+aluminiRouter.get("/aluminiViewGallery",authenticateJWT,aluminiViewGalleryController)
 export default aluminiRouter;

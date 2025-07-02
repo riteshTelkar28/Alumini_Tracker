@@ -12,6 +12,7 @@ import { DiResponsive } from "react-icons/di";
 import forumSchema from "../model/forumSchema.js";
 import { request } from "express";
 import eventConfirmationSchema from "../model/eventConfirmationSchema.js";
+import gallerySchema from "../model/gallerySchema.js";
 
 
 dotenv.config();
@@ -263,6 +264,32 @@ export const adminViewAluminiStatusController = async(request,response)=>{
         response.render("adminViewAluminiStatus",{eventConfirmationData})
 
     }catch(error){
+        response.render("adminHome.ejs",{email:request.payload.email,message:"error while viewing aluminis"})
+    }
+}
+
+export const adminUploadImageController = async(request,response)=>{
+    try{
+        const res = request.files;
+        // console.log(res)
+        const arrayOfFiles = []
+        for(let i=0;i<res.images.length;i++){
+            arrayOfFiles.push(res.images[i].filename)
+        }
+
+        const obj = {
+            galleryId:uuid4(),
+            eventId:request.body.eventId,
+            images:arrayOfFiles
+        }
+
+        const result = await gallerySchema.create(obj);
+        if(result){
+            const eventData = await eventSchema.find({status:true});
+            response.render("adminViewEvent",{eventData:eventData.reverse(),message:"images uploaded"})
+        }
+    }catch(error){
+        console.log("error while uploading images ",error)
         response.render("adminHome.ejs",{email:request.payload.email,message:"error while viewing aluminis"})
     }
 }

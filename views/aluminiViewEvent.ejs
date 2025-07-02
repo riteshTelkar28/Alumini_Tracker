@@ -97,7 +97,7 @@
                                 <% if(eventData.length == 0){ %>
                                     <center>No data found</center>
                                 <%}else{%>
-                                    <table>
+                                    <table border="1">
                                         <thead>
                                             <tr>
                                                 <th>S.No</th>
@@ -111,7 +111,7 @@
                                                 <th>Type</th>
                                                 <th>Uploading Date</th>
                                                 <th>Uploading Time</th>
-                                                <th>Accept Invitation</th>
+                                                <th colspan="2">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -138,6 +138,16 @@
                                                                 <button class="btn btn-danger" >Accept Invitation</button>
                                                             <%}%>
                                                         </form> 
+                                                    </td>
+                                                    <td>
+                                                        <form action="/alumini/aluminiDeclineEvent" method="post">
+                                                            <input type="hidden" name="eventId" value="<%=event.eventId%>">
+                                                            <%if(event.acceptInvitation=="Invitation Accepted"){%>
+                                                                <button class="btn btn-danger">Decline</button>
+                                                            <%}else{%>
+                                                                <p style="color: green;" >Decline</p>
+                                                            <%}%>
+                                                        </form>
                                                     </td>                                                 
                                                 </tr>
                                             <%}) %>

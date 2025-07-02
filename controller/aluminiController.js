@@ -13,6 +13,8 @@ import forumChatSchema from "../model/forumChatSchema.js";
 import forumMemberSchema from "../model/forumMemberSchema.js";
 import eventSchema from "../model/eventSchema.js";
 import eventConfirmationSchema from "../model/eventConfirmationSchema.js";
+import { request } from "http";
+import gallerySchema from "../model/gallerySchema.js";
 dotenv.config()
 
 const ALUMINI_SECRET = process.env.ALUMINI_SECRET_KEY;
@@ -326,7 +328,47 @@ export const aluminiAcceptInvitationController = async(request,response)=>{
     }catch(error){
         console.log("error while accepting event ",error)
         const eventData = await eventSchema.find({status:true});
-        response.render("aluminiViewEvent",{eventData:eventData.reverse(),message:"Error while accepting data"})
+        response.render("aluminiViewEvent",{eventData:eventData,message:"Error while accepting data"})
     }
 
+}
+
+export const aluminiDeclineEventController = async(request,response)=>{
+    try{
+        const eventId = request.body.eventId;
+        const aluminiObj = await aluminiSchema.findOne({email:request.payload.email},{aluminiId:1});
+        const aluminiId = aluminiObj.aluminiId;
+        const eventData = await eventSchema.find({status:true});
+        const res = await eventConfirmationSchema.deleteOne({eventId,aluminiId});
+        const eventConfirmationData = await eventConfirmationSchema.find();
+        if(eventConfirmationData.length){
+            for(var i=0;i<eventData.length;i++){
+                for(var j=0;j<eventConfirmationData.length;j++){
+                    if(eventConfirmationData[j].eventId == eventData[i].eventId && eventConfirmationData[j].aluminiId == aluminiId){
+                        eventData[i].acceptInvitation = "Invitation Accepted"
+                    }
+                }
+            }
+        }
+        response.render("aluminiViewEvent",{eventData:eventData,message:"invitation Declined"})
+    }catch(error){
+        const eventData = await eventSchema.find({status:true});
+        response.render("aluminiViewEvent",{eventData:eventData,message:"Error while declining event"})    
+    }
+}
+
+export const aluminiViewGalleryController = async(request,response)=>{
+    try{
+        const galleryData = await gallerySchema.find();
+        // console.log("gallery data ",galleryData)
+        for(let i=0;i<galleryData.length;i++){
+            const eventId = galleryData[i].eventId;
+            const eventObj = await eventSchema.findOne({eventId},{eventName:1})
+            galleryData[i].eventName = eventObj.eventName
+        }
+        response.render("aluminiViewGallery",{galleryData})
+    }catch(error){
+        console.log("error while watching gallery ")
+        response.render("aluminiHome.ejs",{email:request.payload.email,message:"error while viewing gallery"});   
+    }
 }

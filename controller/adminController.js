@@ -40,7 +40,7 @@ export const adminLoginController = async(request,response)=>{
             // response.render("adminHome.ejs")
             // console.log("tokenized");
             
-            response.redirect("/admin/adminHome")
+            response.render("adminHome.ejs",{email:email,message:""})
         }else{
             response.render("adminLogin",{message:message.login_error,status:status.failure});
         }

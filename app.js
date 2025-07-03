@@ -18,6 +18,11 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cookieParser())
 
+app.use((req,res,next)=>{
+    res.setHeader('Cache-Control','no-store','no-cache','must-revalidate','private')
+    next()
+})
+
 app.get("/",(request,response)=>{
     response.render("home.ejs");
 })

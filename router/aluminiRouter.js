@@ -64,7 +64,7 @@ aluminiRouter.post("/aluminiAddForumTopic",authenticateJWT,aluminiAddForumTopicC
 
 aluminiRouter.get("/aluminiLogout",(request,response)=>{
     response.clearCookie('alumini_jwt');
-    response.render("home.ejs")
+    response.render("aluminiLogin.ejs",{message:"logout Successfull"})
 })
 
 aluminiRouter.get("/aluminiViewForumList",authenticateJWT,aluminiViewForumListController);

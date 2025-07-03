@@ -103,8 +103,7 @@ export const aluminiLoginController = async(request,response)=>{
 
             const token = jwt.sign(payload,ALUMINI_SECRET,expiryTime);
             response.cookie("alumini_jwt",token,{httpOnly:true,maxAge:24*60*60*1000});
-
-            response.redirect("/alumini/aluminiHome");
+            response.render("aluminiHome.ejs",{email:email,message:""})
         }else{
             console.log("error while login ",error);
             response.render("aluminiLogin",{message:message.login_error});
